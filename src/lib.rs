@@ -7,6 +7,7 @@
     trivial_casts,
     trivial_numeric_casts
 )]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 #![no_std]
 
 //! A crate for generating large prime numbers, suitable for cryptography.

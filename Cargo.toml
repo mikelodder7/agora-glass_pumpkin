@@ -37,3 +37,7 @@ std = ["once_cell/std"]
 getrandom = ["rand_core/getrandom"]
 # Enables compilation in `no_std` environment
 no_std = ["once_cell/critical-section"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
