@@ -206,7 +206,7 @@ fn _is_prime_basic<R: RngCore + ?Sized>(candidate: &BigUint, q_check: bool, rng:
 /// Minimum checks to be considered okay
 #[inline]
 fn required_checks(bits: usize) -> usize {
-    ((bits as f64).log2() as usize) + 5
+    (bits.checked_ilog2().unwrap_or(1) as usize) + 5
 }
 
 /// Perform Fermat's little theorem on the candidate to determine probable

@@ -12,12 +12,12 @@ readme = "README.md"
 edition = "2021"
 
 [dependencies]
-core2 = "0.4"
-num-bigint = { version = "0.4", features = ["rand"] }
-num-traits = "0.2"
-num-integer = "0.1"
-rand_core = { version = "0.6", features = ["getrandom"] }
-once_cell = "1.17"
+core2 = { version = "0.4", default-features = false }
+num-bigint = { version = "0.4", default-features = false, features = ["rand"] }
+num-traits = { version = "0.2", default-features = false }
+num-integer = { version = "0.1", default-features = false }
+rand_core = { version = "0.6" }
+once_cell = { version = "1.17", default-features = false, features = ["alloc"] }
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
@@ -29,3 +29,11 @@ harness = false
 
 [profile.bench]
 opt-level = 3
+
+[features]
+default = ["std", "getrandom"]
+std = ["once_cell/std"]
+# Enables methods that use `OsRng` internally
+getrandom = ["rand_core/getrandom"]
+# Enables compilation in `no_std` environment
+no_std = ["once_cell/critical-section"]

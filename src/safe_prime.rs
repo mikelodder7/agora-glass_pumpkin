@@ -1,11 +1,11 @@
 //! Generates cryptographically secure safe prime numbers.
 
-use rand_core::OsRng;
-
 pub use crate::common::{
     gen_safe_prime as from_rng, is_safe_prime as check_with,
     is_safe_prime_baillie_psw as strong_check_with,
 };
+
+#[cfg(feature = "getrandom")]
 use crate::error::Result;
 
 /// Constructs a new safe prime number with a size of `bit_length` bits.
@@ -14,18 +14,21 @@ use crate::error::Result;
 /// `from_rng()` function.
 ///
 /// Note: the `bit_length` MUST be at least 128-bits.
+#[cfg(feature = "getrandom")]
 pub fn new(bit_length: usize) -> Result {
-    from_rng(bit_length, &mut OsRng)
+    from_rng(bit_length, &mut rand_core::OsRng)
 }
 
 /// Checks if number is a safe prime
+#[cfg(feature = "getrandom")]
 pub fn check(candidate: &num_bigint::BigUint) -> bool {
-    check_with(candidate, &mut OsRng)
+    check_with(candidate, &mut rand_core::OsRng)
 }
 
 /// Checks if number is a safe prime using the Baillie-PSW test
+#[cfg(feature = "getrandom")]
 pub fn strong_check(candidate: &num_bigint::BigUint) -> bool {
-    strong_check_with(candidate, &mut OsRng)
+    strong_check_with(candidate, &mut rand_core::OsRng)
 }
 
 #[cfg(test)]

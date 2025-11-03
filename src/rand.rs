@@ -59,6 +59,8 @@ impl<R: RngCore> Iterator for Randoms<R> {
 
 #[cfg(test)]
 mod test {
+    use alloc::vec::Vec;
+
     use super::Randoms;
     use rand::thread_rng;
 

@@ -7,6 +7,8 @@
     trivial_casts,
     trivial_numeric_casts
 )]
+#![no_std]
+
 //! A crate for generating large prime numbers, suitable for cryptography.
 //!
 //! Primes are generated similarly to OpenSSL except it applies some recommendations
@@ -16,6 +18,9 @@
 //! 2. Divide the candidate by the first 2048 prime numbers
 //! 3. Test the candidate with Fermat's Theorem.
 //! 4. Runs Baillie-PSW test with `log2(bits) + 5` Miller-Rabin tests
+
+#[cfg(test)]
+extern crate alloc;
 
 mod common;
 pub mod error;
