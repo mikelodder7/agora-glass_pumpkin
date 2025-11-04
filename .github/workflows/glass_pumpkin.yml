@@ -36,6 +36,18 @@ jobs:
           toolchain: stable
       - run: cargo build --all-features
 
+  build-nostd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          # thumbv7m-none-eabi target doesn't have `std`, so compilation will fail even if library
+          # transitively depends on `std`. In general, any `...-none-...` target will work.
+          targets: thumbv7m-none-eabi
+      - run: cargo build --no-default-features -F no_std --target thumbv7m-none-eabi
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -72,6 +84,18 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
+      - run: cargo doc --all-features
+
+  # Makes sure docs build on nightly, since this is how they are built on docs.rs
+  doc-nightly:
+    runs-on: ubuntu-latest
+    env:
+      RUSTDOCFLAGS: "-Dwarnings --cfg docsrs"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly
       - run: cargo doc --all-features
 
   pants:
